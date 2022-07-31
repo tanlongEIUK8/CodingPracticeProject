@@ -15,4 +15,9 @@ public class MainChat {
     private JLabel png_fileicon;
     private JLabel png_picicon;
     private JLabel png_sendicon;
+    private JPanel Contact_Panel;
+
+    private void createUIComponents() {
+        Contact_Panel.setSize(10, 100);
+    }
 }

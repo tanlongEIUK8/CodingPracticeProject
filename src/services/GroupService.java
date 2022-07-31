@@ -24,14 +24,13 @@ public class GroupService {
 			group.addMember(tempUser);
 			dataStorage.addGroup(group);
 			return true;
-		} else if (groupType.equals(GroupType.Public)) {
+		} else {
 			PublicGroup group = new PublicGroup();
 			group.addAdmin(tempUser);
 			group.addMember(tempUser);
 			dataStorage.addGroup(group);
 			return true;
 		}
-		return false;
 	}
 
 	public boolean addMember(String inviterId, String inviteeId, String groupId) {

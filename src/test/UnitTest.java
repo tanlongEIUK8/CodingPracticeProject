@@ -14,6 +14,8 @@ import models.Group;
 import models.GroupType;
 import models.Message;
 import models.User;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import services.GroupService;
 import services.MessageService;
 import services.UserService;
@@ -34,9 +36,9 @@ public class UnitTest {
 		userService.createNewUser("Son", "Goku", "songoku", "123456789", "Male", "11031999");
 		userService.createNewUser("Uzimaki", "Naruto", "naruto", "999999999", "Male", "13031999");
 		userService.createNewUser("Dragon.D", "Luffy", "luffy", "000000000", "Female", "09081999");
-		groupService.createGroup(GroupType.Private, "0");
-		groupService.createGroup(GroupType.Public, "0");
-		groupService.createGroup(GroupType.Private, "1");
+		groupService.createGroup(GroupType.Private, "user0");
+		groupService.createGroup(GroupType.Public, "user0");
+		groupService.createGroup(GroupType.Private, "user1");
 	}
 
 	@Test
@@ -46,7 +48,7 @@ public class UnitTest {
 
 	@Test
 	public void addExistUserTest() {
-		assertFalse(userService.createNewUser("Son", "Gohan", "songohan", "123456789", "Male", "01011999"));
+		assertFalse(userService.createNewUser("Son", "Goku", "songoku", "123456789", "Male", "11031999"));
 	}
 
 	@Test
@@ -106,23 +108,33 @@ public class UnitTest {
 	}
 
 	@Test
-	public void addPublicMemberTest() {
+	public void addPublicMemberTest1() {
 		User user1 = userService.getUserByUsername("songoku");
 		User user2 = userService.getUserByUsername("naruto");
 		assertTrue(groupService.addMember(user1.getId(), user2.getId(), "group1"));
 	}
 
 	@Test
-	public void addMemberByInviteCodeTest() {
+	public void addPublicMemberTest2() {
+		User user1 = userService.getUserByUsername("songoku");
+		User user2 = userService.getUserByUsername("naruto");
+		assertTrue(groupService.addMember(user1.getId(), user2.getId(), "group0"));
+	}
+
+	@Test
+	public void addMemberByInviteCodeTest1() {
 		User user1 = userService.getUserByUsername("songoku");
 		assertTrue(
 				groupService.addMemberByInviteCode(dataStorage.getGroupList().get(1).getInviteCode(), user1.getId()));
 	}
 
-	@Test
-	public void checkAdminPrivateGroupTest() {
-		User user1 = userService.getUserByUsername("songoku");
-		assertTrue(groupService.checkMemberGroup(user1.getId(), "group0"));
+
+
+	@ParameterizedTest(name = "groupId = {0}, userName = {1}, expected = {2}")
+	@CsvSource({"group0, songoku, true", "group0, luffy, false " , "group09090, songoku, false"})
+	public void checkAdminPrivateGroupTest(String groupId, String userName, boolean expected) {
+		User user1 = userService.getUserByUsername(userName);
+		assertEquals(expected, groupService.checkMemberGroup(user1.getId(), groupId));
 	}
 
 	@Test
@@ -180,14 +192,26 @@ public class UnitTest {
 		assertEquals(12, messageList.size());
 	}
 
-	@Test
-	public void showKLatestMessageGroupTest() {
+	@ParameterizedTest(name = "k = {0}, expected = {1}")
+	@CsvSource({"3, 3", "100, 24"})
+	public void showKLatestMessageGroupTest(int k, int expected) {
 
 		for (int i = 0; i < 10; i++) {
 			messageService.sendMessageToGroup(contentMessage1, "user0", "group0");
 		}
-		List<Message> messageList = messageService.showKLatestMessageGroup("group0", 3);
-		assertEquals(3, messageList.size());
+		List<Message> messageList = messageService.showKLatestMessageGroup("group0", k);
+		assertEquals(expected, messageList.size());
+
+	}
+
+	@Test
+	public void showLatestMessageGroupExceptMTest() {
+
+		for (int i = 0; i < 10; i++) {
+			messageService.sendMessageToGroup(contentMessage1, "user0", "group0");
+		}
+		List<Message> messageList = messageService.showLatestMessageGroupExceptM("group0", 3, 1);
+		assertEquals(2, messageList.size());
 
 	}
 
