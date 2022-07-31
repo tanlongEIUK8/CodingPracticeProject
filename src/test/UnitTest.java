@@ -31,9 +31,9 @@ public class UnitTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		dataStorage = DataStorage.getInstance();
-		userService.createNewUser("Nguyen", "Le", "nguyenle", "12345678", "Male", "03101999");
-		userService.createNewUser("Ngoc", "Thanh", "ngocthanh", "99999999", "Female", "13031999");
-		userService.createNewUser("Van", "Ngoc", "vanngoc", "99999999", "Female", "09081999");
+		userService.createNewUser("Son", "Goku", "songoku", "123456789", "Male", "11031999");
+		userService.createNewUser("Uzimaki", "Naruto", "naruto", "999999999", "Male", "13031999");
+		userService.createNewUser("Dragon.D", "Luffy", "luffy", "000000000", "Female", "09081999");
 		groupService.createGroup(GroupType.Private, 0);
 		groupService.createGroup(GroupType.Public, 0);
 		groupService.createGroup(GroupType.Private, 1);
@@ -41,12 +41,12 @@ public class UnitTest {
 
 	@Test
 	public void addUserTest() {
-		assertTrue(userService.createNewUser("Le", "Thanh", "thanhle123", "12345678", "Male", "03101999"));
+		assertTrue(userService.createNewUser("Kevin", "Max", "KevinMax99", "123456789", "Male", "01011999"));
 	}
 
 	@Test
 	public void addExistUserTest() {
-		assertFalse(userService.createNewUser("Nguyen", "Le", "nguyenle", "12345678", "Male", "03101999"));
+		assertFalse(userService.createNewUser("Son", "Gohan", "songohan", "123456789", "Male", "01011999"));
 	}
 
 	@Test
@@ -61,73 +61,73 @@ public class UnitTest {
 
 	@Test
 	public void loginWithTruePasswordTest() {
-		assertTrue(userService.login("nguyenle", "12345678"));
+		assertTrue(userService.login("songoku", "123456789"));
 	}
 
 	@Test
 	public void loginWithWrongPasswordTest() {
-		assertFalse(userService.login("nguyenle", "123456s8"));
+		assertFalse(userService.login("songoku", "123456780"));
 	}
 
 	@Test
 	public void loginNoExistTest() {
-		assertFalse(userService.login("nguyenlekhanh", "12345678"));
+		assertFalse(userService.login("kakalot", "123456789"));
 	}
 
 	@Test
 	public void checkHashPasswordtest() {
-		assertTrue(userService.checkHashPassword("nguyenle", "12345678"));
+		assertTrue(userService.checkHashPassword("songoku", "123456789"));
 	}
 
 	@Test
 	public void getUserByUsernameTest() {
-		User user = userService.getUserByUsername("nguyenle");
-		assertEquals(0, user.getId());
+		User user = userService.getUserByUsername("naruto");
+		assertEquals(1, user.getId());
 	}
 
 	@Test
 	public void getUserByIDTest() {
 		User user = userService.getUserByUserId(0);
-		assertEquals("nguyenle", user.getUsername());
+		assertEquals("songoku", user.getUsername());
 	}
 
 	@Test
 	public void setAliastest() {
-		User user1 = userService.getUserByUsername("nguyenle");
-		User user2 = userService.getUserByUsername("ngocthanh");
-		assertTrue(userService.setAlias(user1, user2, "BigPig!!!"));
+		User user1 = userService.getUserByUsername("songoku");
+		User user2 = userService.getUserByUsername("naruto");
+		assertTrue(userService.setAlias(user1, user2, "Shonen Jump"));
 	}
 
 	@Test
 	public void addPrivateMemberTest() {
-		User user1 = userService.getUserByUsername("nguyenle");
-		User user2 = userService.getUserByUsername("ngocthanh");
+		User user1 = userService.getUserByUsername("songoku");
+		User user2 = userService.getUserByUsername("naruto");
 		assertTrue(groupService.addMember(user1.getId(), user2.getId(), 0));
 	}
 
 	@Test
 	public void addPublicMemberTest() {
-		User user1 = userService.getUserByUsername("nguyenle");
-		User user2 = userService.getUserByUsername("ngocthanh");
+		User user1 = userService.getUserByUsername("songoku");
+		User user2 = userService.getUserByUsername("naruto");
 		assertTrue(groupService.addMember(user1.getId(), user2.getId(), 1));
 	}
 
 	@Test
 	public void addMemberByInviteCodeTest() {
-		User user1 = userService.getUserByUsername("nguyenle");
+		User user1 = userService.getUserByUsername("songoku");
 		assertTrue(
 				groupService.addMemberByInviteCode(dataStorage.getGroupList().get(1).getInviteCode(), user1.getId()));
 	}
 
 	@Test
 	public void checkAdminPrivateGroupTest() {
-		User user1 = userService.getUserByUsername("nguyenle");
+		User user1 = userService.getUserByUsername("songoku");
 		assertTrue(groupService.checkMemberGroup(user1.getId(), 0));
 	}
 
 	@Test
 	public void leaveGroupTest() {
-		User user1 = userService.getUserByUsername("nguyenle");
+		User user1 = userService.getUserByUsername("songoku");
 		Group group = groupService.getGroupByGroupId(0);
 		assertTrue(groupService.leaveGroup(user1.getId(), group.getId()));
 	}
@@ -136,14 +136,14 @@ public class UnitTest {
 	public void sendMessageToGroupTest() {
 		messageService.sendMessageToGroup(contentMessage1, 1, 0);
 		List<Message> messageList = dataStorage.getMessageList();
-		assertEquals("Hello", messageList.get(messageList.size() - 1).getContent());
+		assertEquals("Welcome", messageList.get(messageList.size() - 1).getContent());
 	}
 
 	@Test
 	public void sendMessageToUserTest() {
 		messageService.sendMessageToUser(contentMessage1, 1, 0);
 		List<Message> messageList = dataStorage.getMessageList();
-		assertEquals("Hello", messageList.get(messageList.size() - 1).getContent());
+		assertEquals("Welcome", messageList.get(messageList.size() - 1).getContent());
 	}
 
 	@Test
@@ -151,14 +151,14 @@ public class UnitTest {
 		messageService.sendFileToUser(fileName, filePath, 0, 0);
 		;
 		List<File> fileList = dataStorage.getFileList();
-		assertEquals("Flowers", fileList.get(fileList.size() - 1).getFileName());
+		assertEquals("Anime", fileList.get(fileList.size() - 1).getFileName());
 	}
 
 	@Test
 	public void sendFileToGroupTest() {
 		messageService.sendFileToGroup(fileName, filePath, 1, 0);
 		List<File> fileList = dataStorage.getFileList();
-		assertEquals("Flowers", fileList.get(fileList.size() - 1).getFileName());
+		assertEquals("Anime", fileList.get(fileList.size() - 1).getFileName());
 	}
 
 	@Test
