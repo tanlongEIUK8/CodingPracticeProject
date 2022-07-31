@@ -31,13 +31,13 @@ public class MessageService {
 		dataStorage.addMessage(message);
 	}
 
-	public void sendFileToGroup(String fileName, String filePath, int senderId, int receiverId) {
+	public void sendFileToGroup(String fileName, String filePath, String senderId, String receiverId) {
 		File file = new File(fileName, filePath, senderId, receiverId);
 		file.setReceiverType(UserType.Group);
 		dataStorage.addFile(file);
 	}
 
-	public void sendFileToUser(String fileName, String filePath, int senderId, int receiverId) {
+	public void sendFileToUser(String fileName, String filePath, String senderId, String receiverId) {
 		File file = new File(fileName, filePath, senderId, receiverId);
 		file.setReceiverType(UserType.User);
 		dataStorage.addFile(file);
@@ -99,7 +99,7 @@ public class MessageService {
 		return messageList;
 	}
 
-	public List<File> showAllFileInGroup(int groupId) {
+	public List<File> showAllFileInGroup(String groupId) {
 		List<File> fileList = dataStorage.getFileList();
 		List<File> groupFileList = new ArrayList<File>();
 		for (File file : fileList) {
