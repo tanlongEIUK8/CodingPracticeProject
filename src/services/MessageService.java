@@ -111,19 +111,19 @@ public class MessageService {
 		return groupFileList;
 	}
 
-	public void deleteMessage(int messageId) {
+	public void deleteMessage(String messageId) {
 		ArrayList<Message> messageList = dataStorage.getMessageList();
 		for (int i = 0; i < messageList.size(); i++) {
-			if (messageList.get(i).getId() == messageId) {
+			if (messageList.get(i).getId().equalsIgnoreCase(messageId)) {
 				messageList.remove(messageList.get(i));
 			}
 		}
 	}
 
-	public void deleteFile(int fileId) {
+	public void deleteFile(String fileId) {
 		List<File> fileList = dataStorage.getFileList();
 		for (int i = 0; i < fileList.size(); i++) {
-			if (fileList.get(i).getId() == fileId) {
+			if (fileList.get(i).getId().equalsIgnoreCase(fileId)) {
 				fileList.remove(fileList.get(i));
 			}
 		}
