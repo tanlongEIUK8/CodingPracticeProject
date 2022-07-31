@@ -1,6 +1,6 @@
 package services;
 
-import main.DataStorage;
+import database.DataStorage;
 import models.Group;
 import models.GroupType;
 import models.PrivateGroup;

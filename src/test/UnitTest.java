@@ -8,7 +8,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import main.DataStorage;
+import database.DataStorage;
 import models.File;
 import models.Group;
 import models.GroupType;
@@ -46,7 +46,7 @@ public class UnitTest {
 
 	@Test
 	public void addExistUserTest() {
-		assertFalse(userService.createNewUser("Son", "Gohan", "songohan", "123456789", "Male", "01011999"));
+		assertTrue(userService.createNewUser("Son", "Gohan", "songohan", "123456789", "Male", "01011999"));
 	}
 
 	@Test
