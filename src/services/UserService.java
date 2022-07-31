@@ -1,7 +1,7 @@
 package services;
 
-import main.DataStorage;
-import models.HashMD5;
+import database.DataStorage;
+import models.HashPassword;
 import models.User;
 
 public class UserService {
@@ -13,7 +13,7 @@ public class UserService {
 
 	public boolean createNewUser(String lastName, String firstName, String username, String password, String gender,
 			String dateOfBirth) {
-		String hashedPassword = HashMD5.getHash(password);
+		String hashedPassword = HashPassword.getHash(password);
 		if (getUserByUsername(username) == null) {
 			User user = new User(lastName, firstName, username, hashedPassword, gender, dateOfBirth);
 			dataStorage.addUser(user);
@@ -34,7 +34,7 @@ public class UserService {
 	}
 
 	public boolean checkHashPassword(String username, String password) {
-		String hashedPassword = HashMD5.getHash(password);
+		String hashedPassword = HashPassword.getHash(password);
 		return getUserByUsername(username).getPassword().equals(hashedPassword);
 	}
 

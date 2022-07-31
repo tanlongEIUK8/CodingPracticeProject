@@ -3,7 +3,7 @@ package services;
 import java.util.ArrayList;
 import java.util.List;
 
-import main.DataStorage;
+import database.DataStorage;
 import models.File;
 import models.Message;
 import models.UserType;
