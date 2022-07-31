@@ -6,11 +6,11 @@ public class File {
 	private String fileName;
 	private String filePath;
 	private FileType fileType;
-	private int senderId;
-	private int receiverId;
+	private String senderId;
+	private String receiverId;
 	private UserType receiverType;
 
-	public File(String fileName, String filePath, int senderId, int receiverId) {
+	public File(String fileName, String filePath, String senderId, String receiverId) {
 		id = "file"+count++;
 		this.fileName = fileName;
 		this.filePath = filePath;
@@ -57,19 +57,19 @@ public class File {
 		this.fileType = fileType;
 	}
 
-	public int getSenderId() {
+	public String getSenderId() {
 		return senderId;
 	}
 
-	public void setSenderId(int senderId) {
+	public void setSenderId(String senderId) {
 		this.senderId = senderId;
 	}
 
-	public int getReceiverId() {
+	public String getReceiverId() {
 		return receiverId;
 	}
 
-	public void setReceiverId(int receiverId) {
+	public void setReceiverId(String receiverId) {
 		this.receiverId = receiverId;
 	}
 
