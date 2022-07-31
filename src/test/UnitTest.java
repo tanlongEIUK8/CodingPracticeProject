@@ -23,10 +23,10 @@ public class UnitTest {
 	UserService userService = new UserService();
 	GroupService groupService = new GroupService();
 	MessageService messageService = new MessageService();
-	String contentMessage1 = "Hello";
+	String contentMessage1 = "Welcome";
 	String contentMessage2 = "Hi";
-	String fileName = "Flowers";
-	String filePath = "flowers.jpg";
+	String fileName = "Anime";
+	String filePath = "anime.jpg";
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -134,29 +134,28 @@ public class UnitTest {
 
 	@Test
 	public void sendMessageToGroupTest() {
-		messageService.sendMessageToGroup(contentMessage1, 1, 0);
+		messageService.sendMessageToGroup(contentMessage1, "user1", "group0");
 		List<Message> messageList = dataStorage.getMessageList();
 		assertEquals("Welcome", messageList.get(messageList.size() - 1).getContent());
 	}
 
 	@Test
 	public void sendMessageToUserTest() {
-		messageService.sendMessageToUser(contentMessage1, 1, 0);
+		messageService.sendMessageToUser(contentMessage1, "user1", "user0");
 		List<Message> messageList = dataStorage.getMessageList();
 		assertEquals("Welcome", messageList.get(messageList.size() - 1).getContent());
 	}
 
 	@Test
 	public void sendFileToUserTest() {
-		messageService.sendFileToUser(fileName, filePath, 0, 0);
-		;
+		messageService.sendFileToUser(fileName, filePath, "user0", "user0");
 		List<File> fileList = dataStorage.getFileList();
 		assertEquals("Anime", fileList.get(fileList.size() - 1).getFileName());
 	}
 
 	@Test
 	public void sendFileToGroupTest() {
-		messageService.sendFileToGroup(fileName, filePath, 1, 0);
+		messageService.sendFileToGroup(fileName, filePath, "user1", "group0");
 		List<File> fileList = dataStorage.getFileList();
 		assertEquals("Anime", fileList.get(fileList.size() - 1).getFileName());
 	}
@@ -164,9 +163,9 @@ public class UnitTest {
 	@Test
 	public void showAllMessageGroupTest() {
 		for (int i = 0; i < 4; i++) {
-			messageService.sendMessageToGroup(contentMessage1, 0, 0);
+			messageService.sendMessageToGroup(contentMessage1, "user0", "group0");
 		}
-		List<Message> messageList = messageService.showAllMessageGroup(0,0);
+		List<Message> messageList = messageService.showAllMessageGroup("group0","user0");
 		assertEquals(4, messageList.size());
 
 	}
@@ -174,10 +173,10 @@ public class UnitTest {
 	@Test
 	public void showAllMessageUserTest() {
 		for (int i = 0; i < 12; i++) {
-			messageService.sendMessageToUser(contentMessage1, 1, 0);
+			messageService.sendMessageToUser(contentMessage1, "user1", "user0");
 
 		}
-		List<Message> messageList = messageService.showAllMessageUser(0, 1);
+		List<Message> messageList = messageService.showAllMessageUser("user0", "user1");
 		assertEquals(12, messageList.size());
 	}
 
@@ -185,9 +184,9 @@ public class UnitTest {
 	public void showKLatestMessageGroupTest() {
 
 		for (int i = 0; i < 10; i++) {
-			messageService.sendMessageToGroup(contentMessage1, 0, 0);
+			messageService.sendMessageToGroup(contentMessage1, "user0", "group0");
 		}
-		List<Message> messageList = messageService.showKLatestMessageGroup(0, 3);
+		List<Message> messageList = messageService.showKLatestMessageGroup("group0", 3);
 		assertEquals(3, messageList.size());
 
 	}
@@ -196,7 +195,7 @@ public class UnitTest {
 	public void showAllFileInGroupTest() {
 		Group group = groupService.getGroupByGroupId("group0");
 		for (int i = 0; i < 2; i++) {
-			messageService.sendFileToGroup(fileName, filePath, 0, 0);
+			messageService.sendFileToGroup(fileName, filePath, "user0", "group0");
 		}
 		List<File> fileList = messageService.showAllFileInGroup(group.getId());
 		assertEquals(2, fileList.size());
@@ -206,7 +205,7 @@ public class UnitTest {
 	@Test
 	public void deleteMessageTest() {
 		for (int i = 0; i < 2; i++) {
-			messageService.sendMessageToGroup(contentMessage1, 1, 2);
+			messageService.sendMessageToGroup(contentMessage1, "user1", "group2");
 		}
 		int size = dataStorage.getMessageList().size();
 		messageService.deleteMessage("msg0");
@@ -216,39 +215,40 @@ public class UnitTest {
 	@Test
 	public void deleteFileTest() {
 		for (int i = 0; i < 2; i++) {
-			messageService.sendFileToGroup(fileName, filePath, 1, 1);
+			messageService.sendFileToGroup(fileName, filePath, "file1", "group1");
 		}
 		int size = dataStorage.getFileList().size();
 		messageService.deleteFile("file0");
-		;
 		assertEquals(size - 1, dataStorage.getFileList().size());
 	}
 
 	@Test
 	public void findMessageByKeywordInGroupChatTest() {
 		for (int i = 0; i < 3; i++) {
-			messageService.sendMessageToGroup(contentMessage1, 1, 2);
+			messageService.sendMessageToGroup(contentMessage1, "user1", "group2");
 		}
 		for (int i = 0; i < 3; i++) {
-			messageService.sendMessageToGroup(contentMessage2, 1, 2);
+			messageService.sendMessageToGroup(contentMessage2, "user1", "group2");
 		}
-		List<Message> messageList = messageService.findMessageByKeywordInGroupChat("Hi", 2,1);
+		List<Message> messageList =
+				messageService.findMessageByKeywordInGroupChat("Hi", "group2","user1");
 		assertEquals(3, messageList.size());
 	}
 
 	@Test
 	public void findMessageByKeywordInUserChatTest() {
 		for (int i = 0; i < 3; i++) {
-			messageService.sendMessageToUser(contentMessage1, 0, 1);
+			messageService.sendMessageToUser(contentMessage1, "user0", "user1");
 		}
 		for (int i = 0; i < 3; i++) {
-			messageService.sendMessageToUser(contentMessage2, 0, 2);
+			messageService.sendMessageToUser(contentMessage2, "user0", "user2");
 		}
 		for (int i = 0; i < 3; i++) {
-			messageService.sendMessageToUser(contentMessage2, 1, 0);
+			messageService.sendMessageToUser(contentMessage2, "user1", "user0");
 		}
 
-		List<Message> messageList = messageService.findMessageByKeywordInUserChat("Hi", 0, 1);
+		List<Message> messageList =
+				messageService.findMessageByKeywordInUserChat("Hi", "user0", "user1");
 		assertEquals(3, messageList.size());
 	}
 
