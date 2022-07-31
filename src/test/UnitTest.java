@@ -34,9 +34,9 @@ public class UnitTest {
 		userService.createNewUser("Son", "Goku", "songoku", "123456789", "Male", "11031999");
 		userService.createNewUser("Uzimaki", "Naruto", "naruto", "999999999", "Male", "13031999");
 		userService.createNewUser("Dragon.D", "Luffy", "luffy", "000000000", "Female", "09081999");
-		groupService.createGroup(GroupType.Private, 0);
-		groupService.createGroup(GroupType.Public, 0);
-		groupService.createGroup(GroupType.Private, 1);
+		groupService.createGroup(GroupType.Private, "0");
+		groupService.createGroup(GroupType.Public, "0");
+		groupService.createGroup(GroupType.Private, "1");
 	}
 
 	@Test
@@ -46,17 +46,17 @@ public class UnitTest {
 
 	@Test
 	public void addExistUserTest() {
-		assertTrue(userService.createNewUser("Son", "Gohan", "songohan", "123456789", "Male", "01011999"));
+		assertFalse(userService.createNewUser("Son", "Gohan", "songohan", "123456789", "Male", "01011999"));
 	}
 
 	@Test
 	public void addPrivateGroupTest() {
-		assertTrue(groupService.createGroup(GroupType.Private, 1));
+		assertTrue(groupService.createGroup(GroupType.Private, "1"));
 	}
 
 	@Test
 	public void addPublicGroupTest() {
-		assertTrue(groupService.createGroup(GroupType.Public, 1));
+		assertTrue(groupService.createGroup(GroupType.Public, "1"));
 	}
 
 	@Test
@@ -82,12 +82,12 @@ public class UnitTest {
 	@Test
 	public void getUserByUsernameTest() {
 		User user = userService.getUserByUsername("naruto");
-		assertEquals(1, user.getId());
+		assertEquals("user1", user.getId());
 	}
 
 	@Test
 	public void getUserByIDTest() {
-		User user = userService.getUserByUserId(0);
+		User user = userService.getUserByUserId("user0");
 		assertEquals("songoku", user.getUsername());
 	}
 
@@ -102,14 +102,14 @@ public class UnitTest {
 	public void addPrivateMemberTest() {
 		User user1 = userService.getUserByUsername("songoku");
 		User user2 = userService.getUserByUsername("naruto");
-		assertTrue(groupService.addMember(user1.getId(), user2.getId(), 0));
+		assertTrue(groupService.addMember(user1.getId(), user2.getId(), "group0"));
 	}
 
 	@Test
 	public void addPublicMemberTest() {
 		User user1 = userService.getUserByUsername("songoku");
 		User user2 = userService.getUserByUsername("naruto");
-		assertTrue(groupService.addMember(user1.getId(), user2.getId(), 1));
+		assertTrue(groupService.addMember(user1.getId(), user2.getId(), "group1"));
 	}
 
 	@Test
@@ -122,13 +122,13 @@ public class UnitTest {
 	@Test
 	public void checkAdminPrivateGroupTest() {
 		User user1 = userService.getUserByUsername("songoku");
-		assertTrue(groupService.checkMemberGroup(user1.getId(), 0));
+		assertTrue(groupService.checkMemberGroup(user1.getId(), "group0"));
 	}
 
 	@Test
 	public void leaveGroupTest() {
 		User user1 = userService.getUserByUsername("songoku");
-		Group group = groupService.getGroupByGroupId(0);
+		Group group = groupService.getGroupByGroupId("group0");
 		assertTrue(groupService.leaveGroup(user1.getId(), group.getId()));
 	}
 
@@ -194,7 +194,7 @@ public class UnitTest {
 
 	@Test
 	public void showAllFileInGroupTest() {
-		Group group = groupService.getGroupByGroupId(0);
+		Group group = groupService.getGroupByGroupId("group0");
 		for (int i = 0; i < 2; i++) {
 			messageService.sendFileToGroup(fileName, filePath, 0, 0);
 		}
@@ -209,7 +209,7 @@ public class UnitTest {
 			messageService.sendMessageToGroup(contentMessage1, 1, 2);
 		}
 		int size = dataStorage.getMessageList().size();
-		messageService.deleteMessage(0);
+		messageService.deleteMessage("msg0");
 		assertEquals(size - 1, dataStorage.getMessageList().size());
 	}
 
@@ -219,7 +219,7 @@ public class UnitTest {
 			messageService.sendFileToGroup(fileName, filePath, 1, 1);
 		}
 		int size = dataStorage.getFileList().size();
-		messageService.deleteFile(0);
+		messageService.deleteFile("file0");
 		;
 		assertEquals(size - 1, dataStorage.getFileList().size());
 	}
