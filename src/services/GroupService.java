@@ -16,7 +16,7 @@ public class GroupService {
 		this.userService = new UserService();
 	}
 
-	public boolean createGroup(GroupType groupType, int userId) {
+	public boolean createGroup(GroupType groupType, String userId) {
 		User tempUser = userService.getUserByUserId(userId);
 		if (groupType.equals(GroupType.Private)) {
 			PrivateGroup group = new PrivateGroup();
@@ -34,7 +34,7 @@ public class GroupService {
 		return false;
 	}
 
-	public boolean addMember(int inviterId, int inviteeId, int groupId) {
+	public boolean addMember(String inviterId, String inviteeId, String groupId) {
 		User inviteeUser = userService.getUserByUserId(inviteeId);
 		Group group = getGroupByGroupId(groupId);
 		if (group.getGroupType().equals(GroupType.Private)) {
@@ -49,7 +49,7 @@ public class GroupService {
 		return false;
 	}
 
-	public boolean addMemberByInviteCode(String inviteCode, int id) {
+	public boolean addMemberByInviteCode(String inviteCode, String id) {
 		User user = userService.getUserByUserId(id);
 		Group group = getGroupByInviteCode(inviteCode);
 		if (group != null) {
@@ -59,7 +59,7 @@ public class GroupService {
 		return false;
 	}
 
-	private boolean checkAdminPrivateGroup(int userId, int groupId) {
+	private boolean checkAdminPrivateGroup(String userId, String groupId) {
 		Group group = getGroupByGroupId(groupId);
 		User admin = userService.getUserByUserId(userId);
 		if (group != null) {
@@ -73,7 +73,7 @@ public class GroupService {
 		}
 	}
 
-	public boolean checkMemberGroup(int userId, int groupId) {
+	public boolean checkMemberGroup(String userId, String groupId) {
 		Group group = getGroupByGroupId(groupId);
 		User user = userService.getUserByUserId(userId);
 		if (group != null) {
@@ -87,7 +87,7 @@ public class GroupService {
 		}
 	}
 
-	public boolean leaveGroup(int userId, int groupId) {
+	public boolean leaveGroup(String userId, String groupId) {
 		User user = userService.getUserByUserId(userId);
 		boolean result = false;
 		Group group = getGroupByGroupId(groupId);
@@ -102,10 +102,10 @@ public class GroupService {
 		return result;
 	}
 
-	public Group getGroupByGroupId(int id) {
+	public Group getGroupByGroupId(String id) {
 		Group tempGroup = null;
 		for (Group group : dataStorage.getGroupList()) {
-			if (group.getId() == id) {
+			if (group.getId().equalsIgnoreCase(id)) {
 				tempGroup = group;
 			}
 		}
