@@ -19,35 +19,35 @@ public class MessageService {
 		this.dataStorage = DataStorage.getInstance();
 	}
 
-	public void sendMessageToGroup(String content, int senderId, int receiverId) {
+	public void sendMessageToGroup(String content, String senderId, String receiverId) {
 		Message message = new Message(content, senderId, receiverId);
 		message.setReceiverType(UserType.Group);
 		dataStorage.addMessage(message);
 	}
 
-	public void sendMessageToUser(String content, int senderId, int receiverId) {
+	public void sendMessageToUser(String content, String senderId, String receiverId) {
 		Message message = new Message(content, senderId, receiverId);
 		message.setReceiverType(UserType.User);
 		dataStorage.addMessage(message);
 	}
 
-	public void sendFileToGroup(String fileName, String filePath, int senderId, int receiverId) {
+	public void sendFileToGroup(String fileName, String filePath, String senderId, String receiverId) {
 		File file = new File(fileName, filePath, senderId, receiverId);
 		file.setReceiverType(UserType.Group);
 		dataStorage.addFile(file);
 	}
 
-	public void sendFileToUser(String fileName, String filePath, int senderId, int receiverId) {
+	public void sendFileToUser(String fileName, String filePath, String senderId, String receiverId) {
 		File file = new File(fileName, filePath, senderId, receiverId);
 		file.setReceiverType(UserType.User);
 		dataStorage.addFile(file);
 	}
 
-	public List<Message> showAllMessageGroup(int groupId, int userId) {
+	public List<Message> showAllMessageGroup(String groupId, String userId) {
 		List<Message> messageList = new ArrayList<Message>();
 		for (Message message : dataStorage.getMessageList()) {
 			if (message.getReceiverType() == UserType.Group) {
-				if ((message.getReceiverId() == groupId && message.getSenderId() == userId)) {
+				if ((message.getReceiverId().equalsIgnoreCase(groupId) && message.getSenderId().equalsIgnoreCase(userId))) {
 					messageList.add(message);
 				}
 			}
@@ -55,18 +55,18 @@ public class MessageService {
 		return messageList;
 	}
 
-	public List<Message> showAllMessageUser(int userId1, int userId2) {
+	public List<Message> showAllMessageUser(String userId1, String userId2) {
 		List<Message> messageList = new ArrayList<Message>();
 		retrieveUserMessage(userId1, userId2, messageList);
 		retrieveUserMessage(userId2, userId1, messageList);
 		return messageList;
 	}
 
-	public List<Message> retrieveUserMessage(int userId1, int userId2, List<Message> userMessages) {
+	public List<Message> retrieveUserMessage(String userId1, String userId2, List<Message> userMessages) {
 		List<Message> messagesList = dataStorage.getMessageList();
 		for (Message message : messagesList) {
 			if (message.getReceiverType() == UserType.User) {
-				if (message.getSenderId() == userId1 && message.getReceiverId() == userId2) {
+				if (message.getSenderId().equalsIgnoreCase(userId1) && message.getReceiverId().equalsIgnoreCase(userId2)) {
 					userMessages.add(message);
 				}
 			}
@@ -75,12 +75,12 @@ public class MessageService {
 
 	}
 
-	public List<Message> showKLatestMessageGroup(int groupId, int k) {
+	public List<Message> showKLatestMessageGroup(String groupId, int k) {
 		List<Message> groupMessage = new ArrayList<Message>();
 		List<Message> messageList = dataStorage.getMessageList();
 		for (int i = messageList.size() - 1; i >= 0; i--) {
 			Message message = messageList.get(i);
-			if (message.getReceiverType() == UserType.Group && message.getReceiverId() == groupId) {
+			if (message.getReceiverType() == UserType.Group && message.getReceiverId().equalsIgnoreCase(groupId)) {
 				groupMessage.add(message);
 				k--;
 			}
@@ -91,7 +91,7 @@ public class MessageService {
 		return groupMessage;
 	}
 
-	public List<Message> showLatestMessageGroupExceptM(int groupId, int k, int m) {
+	public List<Message> showLatestMessageGroupExceptM(String groupId, int k, int m) {
 		List<Message> messageList = showKLatestMessageGroup(groupId, k);
 		for (int i = 0; i < m; i++) {
 			messageList.remove(i);
@@ -99,11 +99,11 @@ public class MessageService {
 		return messageList;
 	}
 
-	public List<File> showAllFileInGroup(int groupId) {
+	public List<File> showAllFileInGroup(String groupId) {
 		List<File> fileList = dataStorage.getFileList();
 		List<File> groupFileList = new ArrayList<File>();
 		for (File file : fileList) {
-			if (file.getReceiverType() == UserType.Group && file.getReceiverId() == groupId) {
+			if (file.getReceiverType() == UserType.Group && file.getReceiverId().equalsIgnoreCase(groupId)) {
 				groupFileList.add(file);
 			}
 		}
@@ -129,7 +129,7 @@ public class MessageService {
 		}
 	}
 
-	public List<Message> findMessageByKeywordInGroupChat(String keyword, int groupId, int userId) {
+	public List<Message> findMessageByKeywordInGroupChat(String keyword, String groupId, String userId) {
 		List<Message> groupMessageList = showAllMessageGroup(groupId, userId);
 		List<Message> containKeyWordMessages = new ArrayList<>();
 
@@ -141,7 +141,7 @@ public class MessageService {
 		return containKeyWordMessages;
 	}
 
-	public List<Message> findMessageByKeywordInUserChat(String keyword, int userId1, int userId2) {
+	public List<Message> findMessageByKeywordInUserChat(String keyword, String userId1, String userId2) {
 		List<Message> userMessageList = showAllMessageUser(userId1, userId2);
 		List<Message> containKeyWordMessages = new ArrayList<>();
 		for (Message message : userMessageList) {
