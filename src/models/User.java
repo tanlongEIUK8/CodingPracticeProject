@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class User {
 	private static int count = 0;
-	private int id;
+	private String id;
 	private String lastName;
 	private String firstName;
 	private String username;
@@ -16,7 +16,7 @@ public class User {
 
 	public User(String lastName, String firstName, String username, String password, String gender,
 			String dateOfBirth) {
-		id = count++;
+		id = "user"+count++;
 		this.lastName = lastName;
 		this.firstName = firstName;
 		this.username = username;
@@ -26,11 +26,11 @@ public class User {
 		alias = new HashMap<User, String>();
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

@@ -7,13 +7,13 @@ import java.util.UUID;
 public abstract class Group {
 	private final String inviteCode = UUID.randomUUID().toString();
 	private static int count = 0;
-	private int id;
+	private String id;
 	protected GroupType groupType;
 	private List<User> userList;
 	private List<User> adminList;
 
 	public Group() {
-		id = count++;
+		id = "group"+count++;
 		userList = new ArrayList<>();
 		adminList = new ArrayList<>();
 	}
@@ -22,11 +22,11 @@ public abstract class Group {
 		return inviteCode;
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

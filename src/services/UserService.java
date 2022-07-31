@@ -48,10 +48,10 @@ public class UserService {
 		return tempUser;
 	}
 
-	public User getUserByUserId(int id) {
+	public User getUserByUserId(String id) {
 		User tempUser = null;
 		for (User user : dataStorage.getUserList()) {
-			if (user.getId() == id) {
+			if (user.getId().equalsIgnoreCase(id)) {
 				tempUser = user;
 			}
 		}

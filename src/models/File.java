@@ -2,7 +2,7 @@ package models;
 
 public class File {
 	private static int count = 0;
-	private int id;
+	private String id;
 	private String fileName;
 	private String filePath;
 	private FileType fileType;
@@ -11,7 +11,7 @@ public class File {
 	private UserType receiverType;
 
 	public File(String fileName, String filePath, int senderId, int receiverId) {
-		id = count++;
+		id = "file"+count++;
 		this.fileName = fileName;
 		this.filePath = filePath;
 		this.senderId = senderId;
@@ -25,11 +25,11 @@ public class File {
 		}
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

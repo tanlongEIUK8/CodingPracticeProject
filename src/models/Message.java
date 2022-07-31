@@ -2,24 +2,24 @@
 
 public class Message {
 	private static int count = 0;
-	private int id;
+	private String id;
 	private String content;
 	private int senderId;
 	private int receiverId;
 	private UserType receiverType;
 
 	public Message(String content, int senderId, int receiverId) {
-		id = count++;
+		id = "msg"+count++;
 		this.content = content;
 		this.senderId = senderId;
 		this.receiverId = receiverId;
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
