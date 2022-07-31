@@ -4,11 +4,11 @@ public class Message {
 	private static int count = 0;
 	private String id;
 	private String content;
-	private int senderId;
-	private int receiverId;
+	private String senderId;
+	private String receiverId;
 	private UserType receiverType;
 
-	public Message(String content, int senderId, int receiverId) {
+	public Message(String content, String senderId, String receiverId) {
 		id = "msg"+count++;
 		this.content = content;
 		this.senderId = senderId;
@@ -31,19 +31,19 @@ public class Message {
 		this.content = content;
 	}
 
-	public int getSenderId() {
+	public String getSenderId() {
 		return senderId;
 	}
 
-	public void setSenderId(int senderId) {
+	public void setSenderId(String senderId) {
 		this.senderId = senderId;
 	}
 
-	public int getReceiverId() {
+	public String getReceiverId() {
 		return receiverId;
 	}
 
-	public void setReceiverId(int receiverId) {
+	public void setReceiverId(String receiverId) {
 		this.receiverId = receiverId;
 	}
 
