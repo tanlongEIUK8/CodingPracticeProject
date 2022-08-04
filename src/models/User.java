@@ -10,6 +10,7 @@ public class User {
 	private String firstName;
 	private String username;
 	private String password;
+	private String salt;
 	private String gender;
 	private String dateOfBirth;
 	private Map<User, String> alias;
@@ -78,8 +79,16 @@ public class User {
 		return dateOfBirth;
 	}
 
+	public String getSalt() {
+		return salt;
+	}
+
 	public void setDateOfBirth(String dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
+	}
+
+	public void setSalt(String salt) {
+		this.salt = salt;
 	}
 
 	public Map<User, String> getAlias() {
