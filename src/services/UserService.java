@@ -4,6 +4,9 @@ import database.DataStorage;
 import models.HashPassword;
 import models.User;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+
 public class UserService {
 	DataStorage dataStorage;
 
@@ -12,10 +15,12 @@ public class UserService {
 	}
 
 	public boolean createNewUser(String lastName, String firstName, String username, String password, String gender,
-			String dateOfBirth) {
-		String hashedPassword = HashPassword.getHash(password);
+			String dateOfBirth) throws NoSuchAlgorithmException, NoSuchProviderException {
+		String salt = HashPassword.getSalt();
+		String hashedPassword = HashPassword.getHash(password, salt);
 		if (getUserByUsername(username) == null) {
 			User user = new User(lastName, firstName, username, hashedPassword, gender, dateOfBirth);
+			user.setSalt(salt);
 			dataStorage.addUser(user);
 			return true;
 		} else
@@ -34,7 +39,8 @@ public class UserService {
 	}
 
 	public boolean checkHashPassword(String username, String password) {
-		String hashedPassword = HashPassword.getHash(password);
+		String salt = getUserByUsername(username).getSalt();
+		String hashedPassword = HashPassword.getHash(password, salt);
 		return getUserByUsername(username).getPassword().equals(hashedPassword);
 	}
 

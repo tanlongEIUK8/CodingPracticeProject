@@ -3,6 +3,8 @@ package test;
 //import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -42,12 +44,12 @@ public class UnitTest {
 	}
 
 	@Test
-	public void addUserTest() {
+	public void addUserTest() throws NoSuchAlgorithmException, NoSuchProviderException {
 		assertTrue(userService.createNewUser("Kevin", "Max", "KevinMax99", "123456789", "Male", "01011999"));
 	}
 
 	@Test
-	public void addExistUserTest() {
+	public void addExistUserTest() throws NoSuchAlgorithmException, NoSuchProviderException {
 		assertFalse(userService.createNewUser("Son", "Goku", "songoku", "123456789", "Male", "11031999"));
 	}
 
