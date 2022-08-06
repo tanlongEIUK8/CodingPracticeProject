@@ -15,15 +15,14 @@ public class User {
 	private String dateOfBirth;
 	private Map<User, String> alias;
 
-	public User(String lastName, String firstName, String username, String password, String gender,
-			String dateOfBirth) {
+	public User(PreCreateUser tempUser, String password) {
 		id = "user"+count++;
-		this.lastName = lastName;
-		this.firstName = firstName;
-		this.username = username;
+		this.lastName = tempUser.getLastName();
+		this.firstName = tempUser.getFirstName();
+		this.username = tempUser.getUsername();
 		this.password = password;
-		this.gender = gender;
-		this.dateOfBirth = dateOfBirth;
+		this.gender = tempUser.getGender();
+		this.dateOfBirth = tempUser.getDateOfBirth();
 		alias = new HashMap<User, String>();
 	}
 

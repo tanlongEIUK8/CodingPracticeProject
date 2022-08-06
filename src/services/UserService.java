@@ -2,6 +2,7 @@ package services;
 
 import database.DataStorage;
 import models.HashPassword;
+import models.PreCreateUser;
 import models.User;
 
 import java.security.NoSuchAlgorithmException;
@@ -16,10 +17,11 @@ public class UserService {
 
 	public boolean createNewUser(String lastName, String firstName, String username, String password, String gender,
 			String dateOfBirth) throws NoSuchAlgorithmException, NoSuchProviderException {
+		PreCreateUser tempUser = new PreCreateUser(lastName, firstName, username, gender, dateOfBirth);
 		String salt = HashPassword.getSalt();
 		String hashedPassword = HashPassword.getHash(password, salt);
-		if (getUserByUsername(username) == null) {
-			User user = new User(lastName, firstName, username, hashedPassword, gender, dateOfBirth);
+		if (getUserByUsername(tempUser.getUsername()) == null) {
+			User user = new User(tempUser, hashedPassword);
 			user.setSalt(salt);
 			dataStorage.addUser(user);
 			return true;
