@@ -7,6 +7,13 @@ import java.awt.event.ActionListener;
 public class Register extends JFrame{
     private JButton Test;
     private JPanel Main;
+    private JTextField REGISTERTextField;
+    private JTextField txt_username;
+    private JTextField input_username;
+    private JTextField txt_password;
+    private JTextField txt_repeatPass;
+    private JPasswordField input_repeatPass;
+    private JPasswordField input_password;
     //hello
 
     public Register() {
