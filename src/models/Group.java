@@ -9,12 +9,13 @@ public abstract class Group {
 	private static int count = 0;
 	private String id;
 	protected GroupType groupType;
-	private List<User> userList;
+	private List<User> memberList;
 	private List<User> adminList;
+	private User owner;
 
 	public Group() {
 		id = "group"+count++;
-		userList = new ArrayList<>();
+		memberList = new ArrayList<>();
 		adminList = new ArrayList<>();
 	}
 
@@ -38,12 +39,12 @@ public abstract class Group {
 		this.groupType = groupType;
 	}
 
-	public List<User> getUserList() {
-		return userList;
+	public List<User> getMemberList() {
+		return memberList;
 	}
 
-	public void setUserList(List<User> userList) {
-		this.userList = userList;
+	public void setMemberList(List<User> memberList) {
+		this.memberList = memberList;
 	}
 
 	public List<User> getAdminList() {
@@ -59,16 +60,23 @@ public abstract class Group {
 	}
 	
 	public void addMember(User user) {
-		userList.add(user);
+		memberList.add(user);
 	}
 	
 	
 	public void removeMember(User user) {
-		userList.remove(user);
+		memberList.remove(user);
 	}
 	
 	public void removeAdmin(User user) {
 		adminList.remove(user);
 	}
 
+	public User getOwner() {
+		return owner;
+	}
+
+	public void setOwner(User owner) {
+		this.owner = owner;
+	}
 }
