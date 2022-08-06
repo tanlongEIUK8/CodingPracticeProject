@@ -21,12 +21,14 @@ public class GroupService {
 		if (groupType.equals(GroupType.Private)) {
 			PrivateGroup group = new PrivateGroup();
 			group.addAdmin(tempUser);
+			group.setOwner(tempUser);
 			group.addMember(tempUser);
 			dataStorage.addGroup(group);
 			return true;
 		} else {
 			PublicGroup group = new PublicGroup();
 			group.addAdmin(tempUser);
+			group.setOwner(tempUser);
 			group.addMember(tempUser);
 			dataStorage.addGroup(group);
 			return true;
@@ -76,7 +78,7 @@ public class GroupService {
 		Group group = getGroupByGroupId(groupId);
 		User user = userService.getUserByUserId(userId);
 		if (group != null) {
-			if (group.getUserList().contains(user)) {
+			if (group.getMemberList().contains(user)) {
 				return true;
 			} else {
 				return false;
