@@ -50,8 +50,8 @@ public class GroupService {
 		return false;
 	}
 
-	public boolean addMemberByInviteCode(String inviteCode, String id) {
-		User user = userService.getUserByUserId(id);
+	public boolean addMemberByInviteCode(String inviteCode, String userId) {
+		User user = userService.getUserByUserId(userId);
 		Group group = getGroupByInviteCode(inviteCode);
 		if (group != null) {
 			group.addMember(user);
