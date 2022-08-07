@@ -41,7 +41,10 @@ public class UserService {
 	}
 
 	public boolean checkHashPassword(String username, String password) {
-		String salt = getUserByUsername(username).getSalt();
+		User tempUser = getUserByUsername(username);
+		if(tempUser == null)
+			return false;
+		String salt = tempUser.getSalt();
 		String hashedPassword = HashPassword.getHash(password, salt);
 		return getUserByUsername(username).getPassword().equals(hashedPassword);
 	}
