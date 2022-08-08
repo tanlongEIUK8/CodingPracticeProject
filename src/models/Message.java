@@ -19,10 +19,6 @@ public class Message {
 		return id;
 	}
 
-	public void setId(String id) {
-		this.id = id;
-	}
-
 	public String getContent() {
 		return content;
 	}
@@ -35,16 +31,8 @@ public class Message {
 		return senderId;
 	}
 
-	public void setSenderId(String senderId) {
-		this.senderId = senderId;
-	}
-
 	public String getReceiverId() {
 		return receiverId;
-	}
-
-	public void setReceiverId(String receiverId) {
-		this.receiverId = receiverId;
 	}
 
 	public UserType getReceiverType() {

@@ -27,10 +27,6 @@ public abstract class Group {
 		return id;
 	}
 
-	public void setId(String id) {
-		this.id = id;
-	}
-
 	public GroupType getGroupType() {
 		return groupType;
 	}
@@ -62,8 +58,7 @@ public abstract class Group {
 	public void addMember(User user) {
 		memberList.add(user);
 	}
-	
-	
+
 	public void removeMember(User user) {
 		memberList.remove(user);
 	}
